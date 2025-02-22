@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>by.form-restapi</groupId>
+        <artifactId>korchagin</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>teacher-server</artifactId>
+    <packaging>war</packaging>
+    <name>teacher-server Maven Webapp</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <docker.exposed.port>8003</docker.exposed.port>
+        <docker.image.dockerfile.dir>${basedir}/../docker</docker.image.dockerfile.dir>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>${spring-cloud-starter-feign.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>${mybatis-spring.version}</version>
+        </dependency>
+
+        <!-- Database -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.6.0</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
+        </dependency>
+
+        <!-- Swagger -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>${spring-doc.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>teacher-server</finalName>
+    </build>
+</project>
