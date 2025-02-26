@@ -12,5 +12,7 @@ public record StudentDTO(
         int course,
         UUID researchAdvisorId,
         String educationLevel,
-        String educationForm
+        String educationForm,
+        int yearStudy,
+        String groupStudent
 ) {}

@@ -11,4 +11,5 @@ public record ResearchAdvisorDTO(
         String university,
         String email,
         String phoneNumber
+        //, String academicDegree
 ) {}

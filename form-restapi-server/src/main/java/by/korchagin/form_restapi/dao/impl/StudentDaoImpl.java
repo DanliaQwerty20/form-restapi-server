@@ -20,8 +20,8 @@ public class StudentDaoImpl implements StudentDao {
     @Transactional
     public UUID createStudent(StudentDTO studentDTO, UUID advisorId) {
         UUID studentId = UUID.randomUUID();
-        String sql = "INSERT INTO students (id, first_name, last_name, email, phone_number, faculty, course, education_level, education_form, research_advisor_id, created_at) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        String sql = "INSERT INTO students (id, first_name, last_name, email, phone_number, faculty, course, education_level, education_form, research_advisor_id, created_at, year_study, group_student, base) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?, ?)";
 
         int rowsInserted = jdbcTemplate.update(sql,
                 studentId,
@@ -33,7 +33,10 @@ public class StudentDaoImpl implements StudentDao {
                 studentDTO.course(),
                 studentDTO.educationLevel(),
                 studentDTO.educationForm(),
-                advisorId
+                advisorId,
+                studentDTO.yearStudy(),
+                studentDTO.groupStudent(),
+                studentDTO.base()
         );
 
         if (rowsInserted == 0) {

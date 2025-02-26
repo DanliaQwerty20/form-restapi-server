@@ -6,6 +6,7 @@ import by.korchagin.form_restapi.dao.SurveyDao;
 import by.korchagin.form_restapi.dto.ConferenceApplicationDTO;
 import by.korchagin.form_restapi.dto.ResearchAdvisorDTO;
 import by.korchagin.form_restapi.dto.SurveyDTO;
+import org.springframework.aop.Advisor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,10 @@ public class ConferenceService {
         this.studentDao = studentDao;
         this.researchAdvisorDao = researchAdvisorDao;
         this.surveyDao = surveyDao;
+    }
+
+    public List<ResearchAdvisorDTO> getAllAdvisors() {
+        return researchAdvisorDao.getAllResearchAdvisors();
     }
 
     public UUID createConferenceApplication(ConferenceApplicationDTO applicationDTO) {

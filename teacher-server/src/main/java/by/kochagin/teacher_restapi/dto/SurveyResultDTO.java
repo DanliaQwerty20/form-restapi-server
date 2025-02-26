@@ -9,5 +9,6 @@ public record SurveyResultDTO(
         String studentFullName,
         String advisorFullName,
         LocalDate conferenceDate,
-        String status
+        String status,
+        String section
 ) {}

@@ -5,5 +5,6 @@ import java.time.LocalDate;
 public record SurveyDTO(
         String topicTitle,
         String topicDescription,
-        LocalDate conferenceDate
+        LocalDate conferenceDate,
+        String section
 ) {}

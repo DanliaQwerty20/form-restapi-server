@@ -6,7 +6,7 @@ logging:
     org.springframework.web: INFO
     org.hibernate: INFO
 
-# datasource, liquibase, hibernate, kafka, max size files
+# datasource, liquibase, kafka, max size files
 spring:
   datasource:
     url: jdbc:postgresql://${PG_DB_HOST:localhost}:${PG_DB_PORT:5432}/${PG_DB_USERNAME:postgres}?currentSchema=${PG_DB_NAME:dip}
@@ -23,3 +23,9 @@ spring:
       ddl-auto: update
 
 
+minio:
+  url: ${MINIO_URL:http://localhost:9000}
+  accessKey: ${MINIO_ACCESS_KEY:minioadmin}
+  secretKey: ${MINIO_SECRET_KEY:minioadmin}
+  bucketName: ${MINIO_NAME:minioadmin}
+  secure: ${MINIO_CERTIFICATION:true}

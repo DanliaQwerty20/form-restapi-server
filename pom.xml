@@ -40,6 +40,7 @@
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 		<mybatis-spring.version>3.0.3</mybatis-spring.version>
 		<spring-cloud-starter-feign.version>4.1.3</spring-cloud-starter-feign.version>
+		<minio.version>LATEST</minio.version>
 	</properties>
 
 	<dependencies>

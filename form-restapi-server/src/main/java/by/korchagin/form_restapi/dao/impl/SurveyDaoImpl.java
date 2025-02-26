@@ -24,14 +24,15 @@ public class SurveyDaoImpl implements SurveyDao {
     @Transactional
     public UUID createSurvey(SurveyDTO surveyDTO, UUID studentId) {
         UUID surveyId = UUID.randomUUID();
-        String sql = "INSERT INTO surveys (id, student_id, topic_title, topic_description, status, created_at) " +
-                "VALUES (?, ?, ?, ?, 'Черновик', NOW())";
+        String sql = "INSERT INTO surveys (id, student_id, topic_title, topic_description, status, created_at, section) " +
+                "VALUES (?, ?, ?, ?, 'Черновик', NOW(), ?)";
 
         int rowsInserted = jdbcTemplate.update(sql,
                 surveyId,
                 studentId,
                 surveyDTO.topicTitle(),
-                surveyDTO.topicDescription()
+                surveyDTO.topicDescription(),
+                surveyDTO.section()
         );
 
         if (rowsInserted == 0) {
@@ -50,7 +51,8 @@ public class SurveyDaoImpl implements SurveyDao {
         return new SurveyDTO(
                 rs.getString("topic_title"),
                 rs.getString("topic_description"),
-                rs.getDate("conference_date").toLocalDate()
+                rs.getDate("conference_date").toLocalDate(),
+                rs.getString("section")
         );
     }
 }

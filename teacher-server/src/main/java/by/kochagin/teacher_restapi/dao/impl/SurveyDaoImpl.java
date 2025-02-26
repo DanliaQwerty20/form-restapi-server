@@ -27,7 +27,8 @@ public class SurveyDaoImpl implements SurveyDao {
                               st.first_name AS student_first_name, st.last_name AS student_last_name,
                               ra.first_name AS advisor_first_name, ra.last_name AS advisor_last_name,
                   s.conference_date,
-                  s.status
+                  s.status,
+                  s.section
                        FROM surveys s
                        JOIN students st ON s.student_id = st.id
                        JOIN research_advisors ra ON st.research_advisor_id = ra.id
@@ -40,7 +41,8 @@ public class SurveyDaoImpl implements SurveyDao {
                 rs.getString("student_first_name") + " " + rs.getString("student_last_name"),
                 rs.getString("advisor_first_name") + " " + rs.getString("advisor_last_name"),
                 rs.getObject("conference_date", LocalDate.class),
-                rs.getString("status")
+                rs.getString("status"),
+                rs.getString("section")
 
         ), pageSize, offset);
     }
@@ -107,39 +109,41 @@ public class SurveyDaoImpl implements SurveyDao {
     @Override
     public SurveyDetailDTO getApplicationById(UUID applicationId) {
         String sql = """
-        SELECT
-            s.id AS survey_id,
-            s.topic_title,
-            s.topic_description,
-            s.conference_date,
-            s.status,
-            s.conference_room, -- Добавляем поле кабинета
-            st.id AS student_id,
-            st.first_name AS student_first_name,
-            st.last_name AS student_last_name,
-            st.email AS student_email,
-            st.phone_number AS student_phone_number,
-            st.education_level AS student_education_level,
-            st.education_form AS student_education_form,
-            st.faculty AS student_faculty,
-            st.course AS student_course,
-            st.research_advisor_id AS research_advisor_id,
-            ra.id AS advisor_id,
-            ra.first_name AS advisor_first_name,
-            ra.last_name AS advisor_last_name,
-            ra.academic_title AS advisor_academic_title,
-            ra.department AS advisor_department,
-            ra.university AS advisor_university,
-            ra.email AS advisor_email,
-            ra.phone_number AS advisor_phone_number
-        FROM
-            dip.surveys s
-        JOIN
-            dip.students st ON s.student_id = st.id
-        JOIN
-            dip.research_advisors ra ON st.research_advisor_id = ra.id
-        WHERE
-            s.id = ?
+    SELECT
+        s.id AS survey_id,
+        s.topic_title,
+        s.topic_description,
+        s.conference_date,
+        s.status,
+        s.conference_room,
+        st.id AS student_id,
+        st.first_name AS student_first_name,
+        st.last_name AS student_last_name,
+        st.email AS student_email,
+        st.phone_number AS student_phone_number,
+        st.education_level AS student_education_level,
+        st.education_form AS student_education_form,
+        st.faculty AS student_faculty,
+        st.course AS student_course,
+        st.research_advisor_id AS research_advisor_id,
+        st.year_study AS student_year_study,
+        st.group_student AS student_group_student,
+        ra.id AS advisor_id,
+        ra.first_name AS advisor_first_name,
+        ra.last_name AS advisor_last_name,
+        ra.academic_title AS advisor_academic_title,
+        ra.department AS advisor_department,
+        ra.university AS advisor_university,
+        ra.email AS advisor_email,
+        ra.phone_number AS advisor_phone_number
+    FROM
+        dip.surveys s
+    JOIN
+        dip.students st ON s.student_id = st.id
+    JOIN
+        dip.research_advisors ra ON st.research_advisor_id = ra.id
+    WHERE
+        s.id = ?
     """;
 
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new SurveyDetailDTO(
@@ -154,7 +158,9 @@ public class SurveyDaoImpl implements SurveyDao {
                         rs.getInt("student_course"),
                         UUID.fromString(rs.getString("research_advisor_id")),
                         rs.getString("student_education_level"),
-                        rs.getString("student_education_form")
+                        rs.getString("student_education_form"),
+                        rs.getInt("student_year_study"),
+                        rs.getString("student_group_student")
                 ),
                 new ResearchAdvisorDTO(
                         UUID.fromString(rs.getString("advisor_id")),
