@@ -1,9 +1,0 @@
-databaseChangeLog:
-  - include:
-      - file: classpath:/db/changelog/5.0/00-01.sql
-  - include:
-      - file: classpath:/db/changelog/5.0/00-02.sql
-  - include:
-      - file: classpath:/db/changelog/5.0/00-03.sql
-  - include:
-      - file: classpath:/db/changelog/5.0/00-04.sql

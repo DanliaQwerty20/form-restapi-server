@@ -14,7 +14,6 @@ spring:
     password: ${PG_DB_PASS:root}
     driver-class-name: org.postgresql.Driver
   liquibase:
-    change-log: classpath:db/changelog/liquibase-master.yaml
     enabled: true
   jpa:
     show-sql: true
