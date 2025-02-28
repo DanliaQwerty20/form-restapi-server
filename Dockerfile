@@ -1,23 +1,19 @@
-# Используем официальный образ OpenJDK в качестве базового
-FROM openjdk:17-jdk-slim AS builder
+FROM alpine:latest AS builder
 
-# Устанавливаем рабочую директорию
-WORKDIR /app
+RUN apk add openjdk17 \
+    curl
 
-# Копируем файлы проекта
-COPY . .
+WORKDIR application
+ARG ARTIFACT_NAME
+COPY ${ARTIFACT_NAME}.jar application.jar
+RUN java -Djarmode=layertools -jar application.jar extract
 
-# Устанавливаем зависимости и собираем проект
-RUN ./mvnw clean package -DskipTests
 
-# Используем более легкий образ для финального контейнера
-FROM openjdk:17-jre-slim
+FROM alpine:latest AS final
+WORKDIR application
 
-# Устанавливаем рабочую директорию
-WORKDIR /app
+RUN apk add openjdk21 \
+    curl
 
-# Копируем собранный jar-файл из этапа builder
-COPY --from=builder /app/target/korchagin-0.0.1-SNAPSHOT.jar application.jar
-
-# Указываем команду для запуска приложения
-ENTRYPOINT ["java", "-jar", "application.jar"]
+ARG EXPOSED_PORT
+EXPOSE ${EXPOSED_PORT}
