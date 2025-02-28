@@ -1,1 +1,1 @@
-CREATE DATABASE rip;
+adminCREATE DATABASE rip;
