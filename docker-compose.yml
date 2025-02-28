@@ -1,0 +1,105 @@
+
+
+services:
+  form-restapi-server:
+    image: by.form-restapi/form-restapi-server:latest
+    container_name: form-restapi-server
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://form-restapi-server:8002/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    environment:
+      SERVER_PORT: 8002
+      PG_DB_HOST: postgres
+      PG_DB_PORT: 5432
+      PG_DB_USERNAME: postgres
+      PG_DB_PASS: root
+      PG_DB_NAME: dip
+      MINIO_URL: http://minio:9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+      MINIO_NAME: minioadmin
+      MINIO_CERTIFICATION: "true"
+    ports:
+      - "8002:8002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_started
+    restart: unless-stopped
+
+  teacher-server:
+    image: by.form-restapi/teacher-server:latest
+    container_name: teacher-server
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://teacher-server:8003/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+    environment:
+      SERVER_PORT: 8003
+      PG_DB_HOST: postgres
+      PG_DB_PORT: 5432
+      PG_DB_USERNAME: postgres
+      PG_DB_PASS: root
+      PG_DB_NAME: dip
+    ports:
+      - "8003:8003"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: dip
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/script/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d dip -U postgres"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio
+    container_name: minio
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+volumes:
+  postgres_data:
