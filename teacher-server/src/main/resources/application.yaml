@@ -8,17 +8,14 @@ logging:
 
 spring:
   datasource:
-    url: jdbc:postgresql://${PG_DB_HOST:localhost}:${PG_DB_PORT:5432}/${PG_DB_USERNAME:postgres}?currentSchema=${PG_DB_NAME:dip}
+    url: jdbc:postgresql://${PG_DB_HOST:localhost}:${PG_DB_PORT:5432}/${PG_DB_NAME:dip}
     username: ${PG_DB_USERNAME:postgres}
     password: ${PG_DB_PASS:root}
     driver-class-name: org.postgresql.Driver
-
   liquibase:
-    default-schema: ${PG_DB_NAME:dip}
     change-log: classpath:db/changelog/liquibase-master.yaml
-    enabled: false
-
+    enabled: true
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
