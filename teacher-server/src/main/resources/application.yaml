@@ -12,6 +12,8 @@ spring:
     username: ${PG_DB_USERNAME:postgres}
     password: ${PG_DB_PASS:root}
     driver-class-name: org.postgresql.Driver
+  liquibase:
+    default-schema: public
   jpa:
     show-sql: true
     hibernate:

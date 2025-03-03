@@ -137,11 +137,11 @@ public class SurveyDaoImpl implements SurveyDao {
         ra.email AS advisor_email,
         ra.phone_number AS advisor_phone_number
     FROM
-        dip.surveys s
+        surveys s
     JOIN
-        dip.students st ON s.student_id = st.id
+        students st ON s.student_id = st.id
     JOIN
-        dip.research_advisors ra ON st.research_advisor_id = ra.id
+        research_advisors ra ON st.research_advisor_id = ra.id
     WHERE
         s.id = ?
     """;

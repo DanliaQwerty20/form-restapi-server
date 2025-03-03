@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -22,9 +23,9 @@ public class SurveyController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> saveConferenceRequest(@RequestBody ConferenceApplicationDTO conferenceApplicationDTO) {
-        conferenceService.createConferenceApplication(conferenceApplicationDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<UUID> saveConferenceRequest(@RequestBody ConferenceApplicationDTO conferenceApplicationDTO) {
+        UUID applicationId = conferenceService.createConferenceApplication(conferenceApplicationDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(applicationId);
     }
 
     @GetMapping("/get")

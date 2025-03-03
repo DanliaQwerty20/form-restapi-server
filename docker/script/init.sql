@@ -1,1 +1,1 @@
-adminCREATE DATABASE rip;
+CREATE DATABASE dip;
