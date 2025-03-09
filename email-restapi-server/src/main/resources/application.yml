@@ -1,0 +1,36 @@
+server:
+  port: 8004
+
+
+spring:
+  application:
+    name: Email-Kafka-Demo-Project
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: group_id
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+  mail:
+    host: smtp.stankin.ru
+    port: 587
+    username: ait.iist@stankin.ru
+    password: Pc82rKt14
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+email:
+  recipients:
+    - danlia2000789@gmail.com
+    - danlia2000789@gmail.com
+    - danlia2003zx@gmail.com

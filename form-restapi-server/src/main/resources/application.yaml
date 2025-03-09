@@ -19,7 +19,8 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-
+  main:
+    allow-bean-definition-overriding: true
 
 minio:
   url: ${MINIO_URL:http://localhost:9000}

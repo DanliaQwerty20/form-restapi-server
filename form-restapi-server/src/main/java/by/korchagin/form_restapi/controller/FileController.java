@@ -1,6 +1,8 @@
 package by.korchagin.form_restapi.controller;
 
 
+import by.korchagin.form_restapi.api.EmailClient;
+import by.korchagin.form_restapi.dto.EmailRequest;
 import by.korchagin.form_restapi.dto.FileData;
 import by.korchagin.form_restapi.service.FileService;
 import org.springframework.http.*;
@@ -15,9 +17,11 @@ import java.util.*;
 public class FileController {
 
     private final FileService fileService;
+    private final EmailClient emailClient;
 
-    public FileController(FileService fileService) {
+    public FileController(FileService fileService, EmailClient emailClient) {
         this.fileService = fileService;
+        this.emailClient = emailClient;
     }
 
     @PostMapping("/upload")
@@ -55,5 +59,16 @@ public class FileController {
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
         headers.setContentDisposition(ContentDisposition.builder("attachment").filename(fileName).build());
         return new ResponseEntity<>(fileContent, headers, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/send")
+    public ResponseEntity<String> sendTestEmail(@RequestParam String recipient) {
+        emailClient.sendEmail(new EmailRequest(
+                recipient,
+                "Тестовое письмо",
+                "Это тестовое письмо для проверки работы email-сервиса."
+        ));
+        return ResponseEntity.ok("Тестовое письмо отправлено на " + recipient);
     }
 }
