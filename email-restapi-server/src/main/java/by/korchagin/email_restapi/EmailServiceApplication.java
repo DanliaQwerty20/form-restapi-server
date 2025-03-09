@@ -11,19 +11,12 @@ import org.springframework.kafka.annotation.EnableKafka;
 @SpringBootApplication
 @EnableKafka
 @Slf4j
-public class EmailServiceApplication implements CommandLineRunner {
-
-    @Autowired
-    private EmailService emailService;
+public class EmailServiceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(EmailServiceApplication.class, args);
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        emailService.sendEmail("danlia2000789@gmail.com", "Test Subject", "Test Message");
-        log.info("Успешная отправка");
-    }
+
 
 }
