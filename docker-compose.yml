@@ -72,11 +72,11 @@ services:
       retries: 5
     environment:
       SERVER_PORT: 8004
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      SPRING_MAIL_HOST: smtp.example.com
+      KAFKA_BOOTSTRAP_SERVERS: localhost:9092
+      SPRING_MAIL_HOST: smtp.stankin.ru
       SPRING_MAIL_PORT: 587
-      SPRING_MAIL_USERNAME: your_email@example.com
-      SPRING_MAIL_PASSWORD: your_password
+      SPRING_MAIL_USERNAME: ait.iist@stankin.ru
+      SPRING_MAIL_PASSWORD: Pc82rKt14
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: true
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: true
     ports:
@@ -86,11 +86,22 @@ services:
         condition: service_started
     restart: unless-stopped
 
-  kafka:
-    container_name: kafka
-    image: confluentinc/cp-kafka:latest
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.3
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - "9092:9092"
+      - "22181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.3
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "29092:29092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -99,16 +110,6 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_NUM_PARTITIONS: 3
-    depends_on:
-      - zookeeper
-    restart: unless-stopped
-
-  zookeeper:
-    container_name: zookeeper
-    image: confluentinc/cp-zookeeper:latest
-    ports:
-      - "2181:2181"
-    restart: unless-stopped
 
   postgres:
     image: postgres:13
