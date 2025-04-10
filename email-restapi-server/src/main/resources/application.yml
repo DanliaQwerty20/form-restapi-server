@@ -1,26 +1,26 @@
 server:
   port: 8004
 
-
 spring:
   application:
     name: Email-Kafka-Demo-Project
 
-
   mail:
-    host: smtp.stankin.ru
+    host: smtp.gmail.com
     port: 587
-    username: ait.iist@stankin.ru
-    password: Pc82rKt14
+    username: danlia2000789@gmail.com
+    password: Danlia200033
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 
 email:
   recipients:
-    - danlia2000789@gmail.com
-    - danlia2000789@gmail.com
     - danlia2003zx@gmail.com
+    - aldar.anchaev@gmail.com

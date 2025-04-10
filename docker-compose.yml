@@ -61,52 +61,54 @@ services:
   email-restapi-server:
     image: email-restapi-server:0.0.1-SNAPSHOT
     container_name: email-restapi-server
-    deploy:
-      resources:
-        limits:
-          memory: 1024M
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://email-restapi-server:8004/actuator/health"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
     environment:
       SERVER_PORT: 8004
-      SPRING_MAIL_HOST: smtp.stankin.ru
+      SPRING_MAIL_HOST: smtp.gmail.com
       SPRING_MAIL_PORT: 587
-      SPRING_MAIL_USERNAME: ait.iist@stankin.ru
-      SPRING_MAIL_PASSWORD: Pc82rKt14
+      SPRING_MAIL_USERNAME: danlia2000789@gmail.com
+      SPRING_MAIL_PASSWORD: Danlia200033
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: true
       SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: true
+      EMAIL_RECIPIENTS: danlia2003zx@gmail.com,aldar.anchaev@gmail.com
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     ports:
       - "8004:8004"
     depends_on:
       kafka:
         condition: service_started
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://email-restapi-server:8004/actuator/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
-    container_name: zookeeper
+    container_name: "jug-zookeeper"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - "2181:2181"
+      - "22181:2181"
 
   kafka:
     image: confluentinc/cp-kafka:latest
-    hostname: kafka
+    container_name: "jug-kafka"
     ports:
-      - "19092:19092"
+      - "29092:29092"
     depends_on:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-broker-1:9092,PLAINTEXT_INTERNAL://localhost:19092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_NUM_PARTITIONS: 3
 
   postgres:
     image: postgres:13
