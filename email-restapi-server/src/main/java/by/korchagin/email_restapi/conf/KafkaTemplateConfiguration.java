@@ -28,7 +28,7 @@ public class KafkaTemplateConfiguration {
         props.put(ProducerConfig.CLIENT_ID_CONFIG, InetAddress.getLocalHost().getHostName());
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
         props.put(ProducerConfig.RETRIES_CONFIG, 3);
         props.put(ProducerConfig.RECONNECT_BACKOFF_MS_CONFIG, 1000);
