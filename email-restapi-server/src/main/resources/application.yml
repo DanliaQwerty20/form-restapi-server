@@ -20,7 +20,4 @@ spring:
           timeout: 5000
           writetimeout: 5000
 
-email:
-  recipients:
-    - danlia2003zx@gmail.com
-    - aldar.anchaev@gmail.com
+

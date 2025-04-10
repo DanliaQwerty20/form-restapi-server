@@ -5,7 +5,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-
+/*
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
@@ -24,3 +24,6 @@ public class PaymentService {
     }
 }
 
+
+
+ */

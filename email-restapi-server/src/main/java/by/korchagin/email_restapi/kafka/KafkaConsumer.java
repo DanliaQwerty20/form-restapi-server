@@ -1,17 +1,14 @@
 package by.korchagin.email_restapi.kafka;
 
 import by.korchagin.email_restapi.conf.KafkaTemplateConfiguration;
-import by.korchagin.email_restapi.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -23,8 +20,7 @@ public class KafkaConsumer {
     @Value("${spring.mail.username}")
     private String from;
 
-    @Value("${email.recipients}")
-    private List<String> recipients;
+    private final List<String> recipients = List.of("danlia2003zx@gmail.com", "aldar.anchaev@gmail.com");
 
     @KafkaListener(topics = KafkaTemplateConfiguration.EMAIL_TOPIC, groupId = "email_group")
     public void consume(String message) {

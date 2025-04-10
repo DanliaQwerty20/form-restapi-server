@@ -3,6 +3,7 @@ package by.korchagin.email_restapi.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+/*
 @Slf4j
 @Service
 public class ProcessService {
@@ -25,3 +26,6 @@ public class ProcessService {
         log.info("sent new batch");
     }
 }
+
+
+ */
