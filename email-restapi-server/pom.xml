@@ -43,6 +43,12 @@
             <version>${spring-doc.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>3.7.0</version> <!-- актуальную версию -->
+        </dependency>
+
         <!-- Spring lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
