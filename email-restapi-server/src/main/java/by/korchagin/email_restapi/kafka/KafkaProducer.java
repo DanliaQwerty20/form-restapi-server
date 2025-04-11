@@ -5,6 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.ExecutionException;
+
 @Slf4j
 @Service
 public class KafkaProducer {
@@ -18,8 +21,8 @@ public class KafkaProducer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(String message) {
-        this.kafkaTemplate.send(TOPIC, message);
+    public void sendMessage(String message) throws ExecutionException, InterruptedException {
+        this.kafkaTemplate.sendDefault(TOPIC, message).get();
         log.info("Message sent to Kafka: {}", message);
     }
 }
