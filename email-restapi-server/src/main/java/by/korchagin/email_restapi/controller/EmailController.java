@@ -1,7 +1,6 @@
 package by.korchagin.email_restapi.controller;
 
 
-
 import by.korchagin.email_restapi.kafka.KafkaProducer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -9,8 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @RestController
@@ -24,7 +21,7 @@ public class EmailController {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<String> sendEmail(@RequestParam("message") String message) throws ExecutionException, InterruptedException {
+    public ResponseEntity<String> sendEmail(@RequestParam("message") String message) {
         if (message == null || message.trim().isEmpty()) {
             return ResponseEntity.badRequest().body("Message cannot be empty");
         }
