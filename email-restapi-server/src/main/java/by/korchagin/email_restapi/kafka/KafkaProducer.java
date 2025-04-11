@@ -15,16 +15,16 @@ public class KafkaProducer {
 
     private static final String TOPIC = "email_topic";
 
-    private KafkaTemplate<String, Message> kafkaTemplate;
+    private final KafkaTemplate<String, Message> kafkaTemplate;
 
     @Autowired
     public KafkaProducer(KafkaTemplate<String, Message> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(String msg){
+    public void sendMessage(String msg) throws ExecutionException, InterruptedException {
         Message message = new Message(msg);
-        kafkaTemplate.send(TOPIC, message);
+        kafkaTemplate.sendDefault(TOPIC, message).get();
         log.info("Message sent to Kafka: {}", message);
     }
 }

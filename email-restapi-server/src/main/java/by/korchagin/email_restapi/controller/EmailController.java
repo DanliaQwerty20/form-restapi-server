@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.ExecutionException;
+
 @Slf4j
 @RestController
 @RequestMapping("/email")
@@ -21,7 +23,7 @@ public class EmailController {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<String> sendEmail(@RequestParam("message") String message) {
+    public ResponseEntity<String> sendEmail(@RequestParam("message") String message) throws ExecutionException, InterruptedException {
         if (message == null || message.trim().isEmpty()) {
             return ResponseEntity.badRequest().body("Message cannot be empty");
         }
