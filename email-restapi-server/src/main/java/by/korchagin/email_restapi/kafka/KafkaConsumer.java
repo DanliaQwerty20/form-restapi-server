@@ -1,6 +1,7 @@
 package by.korchagin.email_restapi.kafka;
 
 import by.korchagin.email_restapi.conf.KafkaTemplateConfiguration;
+import by.korchagin.email_restapi.dto.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,16 +23,17 @@ public class KafkaConsumer {
 
     private final List<String> recipients = List.of("danlia2003zx@gmail.com", "aldar.anchaev@gmail.com");
 
-    @KafkaListener(topics = KafkaTemplateConfiguration.EMAIL_TOPIC, groupId = "email_group")
-    public void consume(String message) {
+    @KafkaListener(topics = KafkaTemplateConfiguration.EMAIL_TOPIC, groupId = "group_id")
+    public void consume(Message message) {
         log.info("Received message from Kafka: {}", message);
+
         for (String to : recipients) {
             try {
                 SimpleMailMessage mailMessage = new SimpleMailMessage();
                 mailMessage.setFrom(from);
                 mailMessage.setTo(to);
                 mailMessage.setSubject("Kafka Email Notification");
-                mailMessage.setText(message);
+                mailMessage.setText(message.message());
 
                 javaMailSender.send(mailMessage);
                 log.info("Email sent successfully to: {}", to);

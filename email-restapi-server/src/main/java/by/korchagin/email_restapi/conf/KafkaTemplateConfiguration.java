@@ -1,7 +1,8 @@
 package by.korchagin.email_restapi.conf;
 
 
-import by.korchagin.email_restapi.service.OtpDto;
+
+import by.korchagin.email_restapi.dto.Message;
 import lombok.SneakyThrows;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -23,12 +24,12 @@ public class KafkaTemplateConfiguration {
 
     @Bean
     @SneakyThrows
-    public ProducerFactory<String, String> producerFactory() {
-        Map<String, Object> props = new HashMap<>();
+    public ProducerFactory<String, Message> producerFactory() {
+        Map<String, Object > props = new HashMap<>();
         props.put(ProducerConfig.CLIENT_ID_CONFIG, InetAddress.getLocalHost().getHostName());
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
         props.put(ProducerConfig.RETRIES_CONFIG, 3);
         props.put(ProducerConfig.RECONNECT_BACKOFF_MS_CONFIG, 1000);
@@ -38,9 +39,9 @@ public class KafkaTemplateConfiguration {
     }
 
     @Bean
-    public KafkaTemplate<String, String> kafkaTemplate(ProducerFactory<String,
-            String> producerFactory) {
-        KafkaTemplate<String, String> kafkaTemplate = new KafkaTemplate<>(producerFactory);
+    public KafkaTemplate<String, Message> kafkaTemplate(ProducerFactory<String,
+            Message> producerFactory) {
+        KafkaTemplate<String, Message> kafkaTemplate = new KafkaTemplate<>(producerFactory);
         kafkaTemplate.setDefaultTopic(EMAIL_TOPIC);
         return kafkaTemplate;
     }
